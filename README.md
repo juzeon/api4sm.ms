@@ -1,5 +1,11 @@
 # SM.MS图床API For PHP
 
+安装方法：
+
+```bash
+git clone https://github.com/juzeon/api4sm.ms.git
+```
+
 使用示例：
 
 ```php
