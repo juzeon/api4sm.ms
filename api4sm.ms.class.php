@@ -7,13 +7,16 @@
 require_once('api4sm.ms.class.php');//引用本类库
 $a=new Api4SmMs();
 $r=$a->upload('/path/to/file/a.png');//调用upload方法，传入文件路径
+$r=$a->upload('https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/bd_logo1_31bdc765.png');//也可以是网络地址
 var_dump($r);//输出结果array，详见：https://sm.ms/doc/
  * 
  */
 class Api4SmMs {
 	public function upload($filepath) {
 		$name = basename($filepath);
-		$type = mime_content_type($filepath);
+		preg_match('/(.*?)\\.[A-Za-z0-9]+/', $name,$m);
+		$name=$m[0];
+		//$type = mime_content_type($filepath);
 		$bits = file_get_contents($filepath);
 		$target_url = "https://sm.ms/api/upload";
 
@@ -22,7 +25,7 @@ class Api4SmMs {
 		array_push($data, "--" . $mimeBoundary);
 		$mimeType = empty($type) ? 'application/octet-stream' : $type;
 		array_push($data, "Content-Disposition: form-data; name=\"smfile\"; filename=\"$name\"");
-		array_push($data, "Content-Type: $mimeType");
+		//array_push($data, "Content-Type: $mimeType");
 		array_push($data, '');
 		array_push($data, $bits);
 		array_push($data, '');
